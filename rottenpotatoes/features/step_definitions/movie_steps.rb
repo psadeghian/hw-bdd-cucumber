@@ -29,10 +29,63 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
-  fail "Unimplemented"
+  rating_list.split(/,\s*/).each do |rating| 
+    # \s 	Any whitespace character
+    # a* 	Zero or more of a
+    rating = "ratings_#{rating}"
+    if uncheck 
+    # uncheck returns true or false depending on the regex above
+      uncheck(rating) 
+      # taken from web_steps.rb
+      # Capybara method
+    else
+      check(rating) 
+      # taken from web_steps.rb
+      # Capybara method
+    end
+  end
+  #fail "Unimplemented"
+end
+
+
+Then /^I should (not )?see the following movies: (.*)$/ do |should_not_case, movie_list|
+  movie_list.split(/,\s*/).each do |movie|
+    movie = movie.strip
+    if should_not_case
+      #step "Then I should not see #{movie}"
+      if page.respond_to? :should
+        page.should have_content(text)
+      else
+        assert page.has_content?(text)
+      end
+      
+    else
+      #step "Then I should see #{movie}"
+      if page.respond_to? :should
+        page.should have_no_content(text)
+      else
+        assert page.has_no_content?(text)
+      end
+    end
+  end
+end
+
+Then /^I should see all the movies$/ do
+  # Make sure that all the movies in the app are visible in the table
+  rows = page.all('table#movies tr').count
+  rows.should == 11 
+  #page.should have_css("table#movies tbody tr", :count => movies_count.to_i)
+  # the number of rows for the table at sort_movie_list.feature
+  #fail "Unimplemented"
 end
 
 Then /I should see all the movies/ do
+  if page.respond_to? :should
+    (page.all('table#movies tr').count - 1).should == Movie.all.count
+  else
+    assert (page.all('table#movies tr').count - 1) == Movie.all.count
+  end
   # Make sure that all the movies in the app are visible in the table
-  fail "Unimplemented"
 end
+
+
