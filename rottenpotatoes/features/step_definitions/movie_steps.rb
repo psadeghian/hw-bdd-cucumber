@@ -15,10 +15,8 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
-  # PDev note: /./m - Any character (the m modifier enables multiline mode)
-  # PDev this is unrelated to Part 1 but it was quick coding, for now let's comment out
-  # page.body.should match /#{e1}.*#{e2}/m 
-  fail "Unimplemented"
+  page.body.should match /#{e1}.*#{e2}/m 
+  #fail "Unimplemented"
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -46,7 +44,6 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   end
   #fail "Unimplemented"
 end
-
 
 Then /^I should (not )?see the following movies: (.*)$/ do |should_not_case, movie_list|
   movie_list.split(/,\s*/).each do |movie|
