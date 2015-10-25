@@ -72,6 +72,7 @@ end
 
 Then /^I should see all the movies$/ do
   # Make sure that all the movies in the app are visible in the table
+  # this is not working...
   rows = page.all('table#movies tr').count
   rows.should == 11 
   #page.should have_css("table#movies tbody tr", :count => movies_count.to_i)
@@ -79,13 +80,5 @@ Then /^I should see all the movies$/ do
   #fail "Unimplemented"
 end
 
-Then /I should see all the movies/ do
-  if page.respond_to? :should
-    (page.all('table#movies tr').count - 1).should == Movie.all.count
-  else
-    assert (page.all('table#movies tr').count - 1) == Movie.all.count
-  end
-  # Make sure that all the movies in the app are visible in the table
-end
 
 
