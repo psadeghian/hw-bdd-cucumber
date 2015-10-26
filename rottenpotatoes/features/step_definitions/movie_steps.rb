@@ -4,7 +4,7 @@ Given /the following movies exist/ do |movies_table|
   movies_table.hashes.each do |movie|
     # each returned element will be a hash whose key is the table header.
     # you should arrange to add that movie to the database here.
-    Movie.create!(movie) # PDev
+    Movie.create!(movie) 
   end
   #fail "Unimplemented"
 end
@@ -47,31 +47,16 @@ end
 
 Then /^I should (not )?see the following movies: (.*)$/ do |should_not_case, movie_list|
   movie_list.split(/,\s*/).each do |movie|
-    movie = movie.strip
-    if should_not_case
-      #step "Then I should not see #{movie}"
-      if page.respond_to? :should
-        page.should have_content(text)
-      else
-        assert page.has_content?(text)
-      end
-      
-    else
-      #step "Then I should see #{movie}"
-      if page.respond_to? :should
-        page.should have_no_content(text)
-      else
-        assert page.has_no_content?(text)
-      end
-    end
+    step %Q{I should #{should_not_case}see "#{movie}"}
   end
 end
 
-Then /^I should see all the movies$/ do
+Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
   # this is not working...
   rows = page.all('table#movies tr').count
   rows.should == 11 
+  #page.should have_css("table#movies tbody tr", :count => movies_count.to_i)
   #page.should have_css("table#movies tbody tr", :count => movies_count.to_i)
   # the number of rows for the table at sort_movie_list.feature
   #fail "Unimplemented"

@@ -30,15 +30,13 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
   # note: there is no "submit" button
   And I press "Refresh" 
   # taken from web_steps.rb
-  ####
   # enter step(s) to ensure that PG and R movies are visible
-  Then I should see the following movies: The Terminator, When Harry Met Sally, The Help, Amelie, The Incredibles, Raiders of the Lost Ark
+  Then I should see the following movies: The Terminator, When Harry Met Sally, Amelie, The Incredibles, Raiders of the Lost Ark
   # enter step(s) to ensure that other movies are not visible
-  Then I should not see the following movies: Aladdin, The Help, Chocolat, 2001: A Space Odyssey, Chicken Run
+  Then I should not see the following movies: Aladdin, 2001: A Space Odyssey, Chicken Run, The Help, Chocolat
 
 Scenario: all ratings selected
   # see assignment
-  # When I check the following ratings: G, PG, PG-13, R
-  # And I press "Refresh"
-  Given I am on the movies page
+  When I check the following ratings: G, PG, PG-13, R
+  And I press "Refresh"
   Then I should see all of the movies
